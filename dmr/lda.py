@@ -148,13 +148,17 @@ class LDA:
             N += len(doc)
         return np.exp(log_per / N)
 
-    def learning(self, iteration, voca):
+    def learning(self, iteration, voca, iterator = None):
         '''
         Repeat inference for learning
         '''
         perp = self.perplexity()
         self.log(self.logger.info, "PERP0", [perp])
-        for i in range(iteration):
+        if iterator:
+            iterator = iterator(range(iteration))
+        else:
+            iterator = range(iteration)
+        for i in iterator:
             self.hyperparameter_learning()
             self.inference()
             if (i + 1) % self.SAMPLING_RATE == 0:
