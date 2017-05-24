@@ -16,6 +16,7 @@ class LDA:
     Latent Dirichlet Allocation with Collapsed Gibbs Sampling
     '''
     SAMPLING_RATE = 10
+    HYPERPARAMETER_LEARNING_RATE = 10
     def __init__(self, K, alpha, beta, docs, V, trained=None):
         # set params
         self.K = K
@@ -159,7 +160,8 @@ class LDA:
         else:
             iterator = range(iteration)
         for i in iterator:
-            self.hyperparameter_learning()
+            if i % self.HYPERPARAMETER_LEARNING_RATE == 0:
+                self.hyperparameter_learning()
             self.inference()
             if (i + 1) % self.SAMPLING_RATE == 0:
                 perp = self.perplexity()
