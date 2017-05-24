@@ -29,6 +29,9 @@ class DMR(LDA):
         if self.trained is None:
             self.bfgs()
             self.alpha = self.get_alpha()
+        
+        l1_norm = self.alpha.sum(axis=1)
+        return '''Max=%d, Min=%d''' % (l1_norm.max(), l1_norm.min())
 
     def get_alpha_n_m_z(self, idx=None):
         if idx is None:
